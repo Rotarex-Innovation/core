@@ -14,7 +14,7 @@ from homeassistant.helpers import entity_registry as er
 
 from . import DIMES_ADDRESS, DIMES_SERVICE_INFO
 
-LEVEL_ENTITY_ID = "sensor.srg_1_wave_eeff_level"
+LEVEL_ENTITY_ID = "sensor.dimes_wave_eeff_level"
 
 
 @pytest.mark.usefixtures("entity_registry_enabled_by_default")

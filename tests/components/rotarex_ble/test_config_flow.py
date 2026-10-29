@@ -2,6 +2,7 @@
 
 from unittest.mock import AsyncMock, patch
 
+from home_assistant_bluetooth import BluetoothServiceInfoBleak
 import pytest
 from pytest_homeassistant.common import MockConfigEntry
 
@@ -11,7 +12,13 @@ from homeassistant.const import CONF_ADDRESS, CONF_REGION
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResultType
 
-from . import DIMES_ADDRESS, DIMES_SERVICE_INFO, DIMES_TITLE, NOT_DIMES_SERVICE_INFO
+from . import (
+    DIMES_ADDRESS,
+    DIMES_PASSIVE_SERVICE_INFO,
+    DIMES_SERVICE_INFO,
+    DIMES_TITLE,
+    NOT_DIMES_SERVICE_INFO,
+)
 
 DISCOVERY = (
     "homeassistant.components.rotarex_ble.config_flow.async_discovered_service_info"
@@ -20,10 +27,19 @@ SETTINGS = {CONF_REGION: "other", CONF_TANK_TYPE: "camping_tank"}
 
 
 @pytest.mark.usefixtures("mock_setup_entry")
-async def test_bluetooth_discovery(hass: HomeAssistant) -> None:
+@pytest.mark.parametrize(
+    "service_info",
+    [
+        pytest.param(DIMES_SERVICE_INFO, id="active_scan"),
+        pytest.param(DIMES_PASSIVE_SERVICE_INFO, id="passive_scan"),
+    ],
+)
+async def test_bluetooth_discovery(
+    hass: HomeAssistant, service_info: BluetoothServiceInfoBleak
+) -> None:
     """Test Bluetooth discovery asks for the tank settings."""
     result = await hass.config_entries.flow.async_init(
-        DOMAIN, context={"source": SOURCE_BLUETOOTH}, data=DIMES_SERVICE_INFO
+        DOMAIN, context={"source": SOURCE_BLUETOOTH}, data=service_info
     )
     assert result["type"] is FlowResultType.FORM
     assert result["step_id"] == "bluetooth_confirm"

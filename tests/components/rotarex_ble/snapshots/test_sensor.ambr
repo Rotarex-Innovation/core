@@ -1,5 +1,5 @@
 # serializer version: 1
-# name: test_sensors[sensor.srg_1_wave_eeff_battery-entry]
+# name: test_sensors[sensor.dimes_wave_eeff_battery-entry]
   EntityRegistryEntrySnapshot({
     'aliases': list([
       None,
@@ -15,7 +15,7 @@
     'disabled_by': None,
     'domain': 'sensor',
     'entity_category': <EntityCategory.DIAGNOSTIC: 'diagnostic'>,
-    'entity_id': 'sensor.srg_1_wave_eeff_battery',
+    'entity_id': 'sensor.dimes_wave_eeff_battery',
     'has_entity_name': True,
     'hidden_by': None,
     'icon': None,
@@ -38,23 +38,23 @@
     'unit_of_measurement': '%',
   })
 # ---
-# name: test_sensors[sensor.srg_1_wave_eeff_battery-state]
+# name: test_sensors[sensor.dimes_wave_eeff_battery-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       <EntityStateAttribute.DEVICE_CLASS: 'device_class'>: 'battery',
-      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'SRG-1-WAVE EEFF Battery',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Dimes Wave EEFF Battery',
       <SensorEntityCapabilityAttribute.STATE_CLASS: 'state_class'>: <SensorStateClass.MEASUREMENT: 'measurement'>,
       <EntityStateAttribute.UNIT_OF_MEASUREMENT: 'unit_of_measurement'>: '%',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.srg_1_wave_eeff_battery',
+    'entity_id': 'sensor.dimes_wave_eeff_battery',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '89',
   })
 # ---
-# name: test_sensors[sensor.srg_1_wave_eeff_level-entry]
+# name: test_sensors[sensor.dimes_wave_eeff_level-entry]
   EntityRegistryEntrySnapshot({
     'aliases': list([
       None,
@@ -70,7 +70,7 @@
     'disabled_by': None,
     'domain': 'sensor',
     'entity_category': None,
-    'entity_id': 'sensor.srg_1_wave_eeff_level',
+    'entity_id': 'sensor.dimes_wave_eeff_level',
     'has_entity_name': True,
     'hidden_by': None,
     'icon': None,
@@ -93,22 +93,22 @@
     'unit_of_measurement': '%',
   })
 # ---
-# name: test_sensors[sensor.srg_1_wave_eeff_level-state]
+# name: test_sensors[sensor.dimes_wave_eeff_level-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
-      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'SRG-1-WAVE EEFF Level',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Dimes Wave EEFF Level',
       <SensorEntityCapabilityAttribute.STATE_CLASS: 'state_class'>: <SensorStateClass.MEASUREMENT: 'measurement'>,
       <EntityStateAttribute.UNIT_OF_MEASUREMENT: 'unit_of_measurement'>: '%',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.srg_1_wave_eeff_level',
+    'entity_id': 'sensor.dimes_wave_eeff_level',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
     'state': '28',
   })
 # ---
-# name: test_sensors[sensor.srg_1_wave_eeff_signal_strength-entry]
+# name: test_sensors[sensor.dimes_wave_eeff_signal_strength-entry]
   EntityRegistryEntrySnapshot({
     'aliases': list([
       None,
@@ -124,7 +124,7 @@
     'disabled_by': None,
     'domain': 'sensor',
     'entity_category': <EntityCategory.DIAGNOSTIC: 'diagnostic'>,
-    'entity_id': 'sensor.srg_1_wave_eeff_signal_strength',
+    'entity_id': 'sensor.dimes_wave_eeff_signal_strength',
     'has_entity_name': True,
     'hidden_by': None,
     'icon': None,
@@ -147,16 +147,16 @@
     'unit_of_measurement': 'dBm',
   })
 # ---
-# name: test_sensors[sensor.srg_1_wave_eeff_signal_strength-state]
+# name: test_sensors[sensor.dimes_wave_eeff_signal_strength-state]
   StateSnapshot({
     'attributes': ReadOnlyDict({
       <EntityStateAttribute.DEVICE_CLASS: 'device_class'>: 'signal_strength',
-      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'SRG-1-WAVE EEFF Signal strength',
+      <EntityStateAttribute.FRIENDLY_NAME: 'friendly_name'>: 'Dimes Wave EEFF Signal strength',
       <SensorEntityCapabilityAttribute.STATE_CLASS: 'state_class'>: <SensorStateClass.MEASUREMENT: 'measurement'>,
       <EntityStateAttribute.UNIT_OF_MEASUREMENT: 'unit_of_measurement'>: 'dBm',
     }),
     'context': <ANY>,
-    'entity_id': 'sensor.srg_1_wave_eeff_signal_strength',
+    'entity_id': 'sensor.dimes_wave_eeff_signal_strength',
     'last_changed': <ANY>,
     'last_reported': <ANY>,
     'last_updated': <ANY>,
