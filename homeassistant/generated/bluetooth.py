@@ -1006,6 +1006,11 @@ BLUETOOTH: Final[list[dict[str, bool | str | int | list[int]]]] = [
     },
     {
         "connectable": False,
+        "domain": "rotarex_ble",
+        "service_uuid": "2b67836a-183d-45da-a1bf-381b05e1bde8",
+    },
+    {
+        "connectable": False,
         "domain": "ruuvitag_ble",
         "manufacturer_id": 1177,
     },

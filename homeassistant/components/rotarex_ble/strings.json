@@ -1,0 +1,72 @@
+{
+  "config": {
+    "abort": {
+      "already_configured": "[%key:common::config_flow::abort::already_configured_device%]",
+      "no_devices_found": "[%key:common::config_flow::abort::no_devices_found%]",
+      "not_supported": "Device not supported"
+    },
+    "flow_title": "{name}",
+    "step": {
+      "bluetooth_confirm": {
+        "data": {
+          "region": "Region",
+          "tank_type": "Tank type"
+        },
+        "data_description": {
+          "region": "The region selected for your account in the ROTAREX DIMES app.",
+          "tank_type": "The tank type selected for this sensor in the ROTAREX DIMES app."
+        },
+        "description": "[%key:component::bluetooth::config::step::bluetooth_confirm::description%]"
+      },
+      "user": {
+        "data": {
+          "address": "[%key:common::config_flow::data::device%]",
+          "region": "[%key:component::rotarex_ble::config::step::bluetooth_confirm::data::region%]",
+          "tank_type": "[%key:component::rotarex_ble::config::step::bluetooth_confirm::data::tank_type%]"
+        },
+        "data_description": {
+          "address": "The Dimes Wave sensor you want to set up.",
+          "region": "[%key:component::rotarex_ble::config::step::bluetooth_confirm::data_description::region%]",
+          "tank_type": "[%key:component::rotarex_ble::config::step::bluetooth_confirm::data_description::tank_type%]"
+        },
+        "description": "[%key:component::bluetooth::config::step::user::description%]"
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "level": {
+        "name": "Level"
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "data": {
+          "region": "[%key:component::rotarex_ble::config::step::bluetooth_confirm::data::region%]",
+          "tank_type": "[%key:component::rotarex_ble::config::step::bluetooth_confirm::data::tank_type%]"
+        },
+        "data_description": {
+          "region": "[%key:component::rotarex_ble::config::step::bluetooth_confirm::data_description::region%]",
+          "tank_type": "[%key:component::rotarex_ble::config::step::bluetooth_confirm::data_description::tank_type%]"
+        }
+      }
+    }
+  },
+  "selector": {
+    "region": {
+      "options": {
+        "europe": "Europe",
+        "other": "Other"
+      }
+    },
+    "tank_type": {
+      "options": {
+        "camping_cylinder": "Camping cylinder",
+        "camping_smart": "Camping smart",
+        "camping_tank": "Camping tank"
+      }
+    }
+  }
+}

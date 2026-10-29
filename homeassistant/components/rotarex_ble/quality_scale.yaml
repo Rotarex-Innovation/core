@@ -1,0 +1,100 @@
+rules:
+  # Bronze
+  action-setup:
+    status: exempt
+    comment: There are no custom actions.
+  appropriate-polling:
+    status: exempt
+    comment: The integration listens to Bluetooth advertisements and does not poll.
+  brands: done
+  common-modules: done
+  config-flow-test-coverage: done
+  config-flow: done
+  dependency-transparency: done
+  docs-actions:
+    status: exempt
+    comment: There are no custom actions.
+  docs-conditions:
+    status: exempt
+    comment: This integration does not have any conditions.
+  docs-high-level-description: done
+  docs-installation-instructions: done
+  docs-removal-instructions: done
+  docs-triggers:
+    status: exempt
+    comment: This integration does not have any triggers.
+  entity-event-setup:
+    status: done
+    comment: Subscriptions are handled by the PassiveBluetoothProcessorEntity base class.
+  entity-unique-id: done
+  has-entity-name: done
+  runtime-data: done
+  test-before-configure:
+    status: exempt
+    comment: Presence is confirmed by the discovered advertisement.
+  test-before-setup:
+    status: exempt
+    comment: The sensor may not be in range when Home Assistant starts.
+  unique-config-entry: done
+
+  # Silver
+  action-exceptions:
+    status: exempt
+    comment: There are no custom actions.
+  config-entry-unloading: done
+  docs-configuration-parameters: todo
+  docs-installation-parameters: todo
+  entity-unavailable:
+    status: done
+    comment: Availability is provided by the passive Bluetooth coordinator.
+  integration-owner: done
+  log-when-unavailable:
+    status: done
+    comment: Handled by the passive Bluetooth coordinator.
+  parallel-updates: done
+  reauthentication-flow:
+    status: exempt
+    comment: This integration does not require authentication.
+  test-coverage: todo
+
+  # Gold
+  devices: done
+  diagnostics: todo
+  discovery-update-info:
+    status: exempt
+    comment: This integration uses Bluetooth and addresses don't change.
+  discovery: done
+  docs-data-update: todo
+  docs-examples: todo
+  docs-known-limitations: todo
+  docs-supported-devices: todo
+  docs-supported-functions: todo
+  docs-troubleshooting: todo
+  docs-use-cases: todo
+  dynamic-devices:
+    status: exempt
+    comment: Each config entry is a single sensor.
+  entity-category: done
+  entity-device-class: done
+  entity-disabled-by-default: done
+  entity-translations: done
+  exception-translations:
+    status: exempt
+    comment: The integration does not raise exceptions.
+  icon-translations: done
+  reconfiguration-flow:
+    status: exempt
+    comment: The tank settings are changed in the options flow.
+  repair-issues:
+    status: exempt
+    comment: This integration does not have any known issues that require repair.
+  stale-devices:
+    status: exempt
+    comment: Each config entry is a single sensor.
+
+  # Platinum
+  async-dependency: done
+  inject-websession:
+    status: exempt
+    comment: This integration uses Bluetooth and no web sessions.
+  strict-typing: todo
