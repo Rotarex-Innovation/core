@@ -1,4 +1,4 @@
-"""Common fixtures for the Rotarex DIMES Bluetooth tests."""
+"""Common fixtures for the Rotarex DIMES SRG Bluetooth tests."""
 
 from collections.abc import Generator
 from unittest.mock import AsyncMock, patch

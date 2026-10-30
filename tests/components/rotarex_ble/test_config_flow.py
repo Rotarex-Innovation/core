@@ -1,4 +1,4 @@
-"""Tests for the Rotarex DIMES Bluetooth config flow."""
+"""Tests for the Rotarex DIMES SRG Bluetooth config flow."""
 
 from unittest.mock import AsyncMock, patch
 

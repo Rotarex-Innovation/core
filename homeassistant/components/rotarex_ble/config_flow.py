@@ -1,4 +1,4 @@
-"""Config flow for the Rotarex DIMES Bluetooth integration."""
+"""Config flow for the Rotarex DIMES SRG Bluetooth integration."""
 
 from typing import Any, override
 

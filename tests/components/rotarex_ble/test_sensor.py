@@ -1,4 +1,4 @@
-"""Tests for the Rotarex DIMES Bluetooth sensors."""
+"""Tests for the Rotarex DIMES SRG Bluetooth sensors."""
 
 import pytest
 from pytest_homeassistant.common import MockConfigEntry, snapshot_platform

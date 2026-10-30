@@ -1,4 +1,4 @@
-"""Tests for the Rotarex DIMES Bluetooth integration."""
+"""Tests for the Rotarex DIMES SRG Bluetooth integration."""
 
 from home_assistant_bluetooth import BluetoothServiceInfoBleak
 from pytest_homeassistant.components.bluetooth import (

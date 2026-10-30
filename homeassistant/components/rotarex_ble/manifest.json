@@ -1,6 +1,6 @@
 {
   "domain": "rotarex_ble",
-  "name": "Rotarex DIMES Bluetooth",
+  "name": "Rotarex DIMES SRG Bluetooth",
   "bluetooth": [
     {
       "connectable": false,

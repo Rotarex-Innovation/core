@@ -1,4 +1,4 @@
-"""The Rotarex DIMES Bluetooth integration."""
+"""The Rotarex DIMES SRG Bluetooth integration."""
 
 import logging
 

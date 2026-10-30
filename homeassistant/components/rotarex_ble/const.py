@@ -1,4 +1,4 @@
-"""Constants for the Rotarex DIMES Bluetooth integration."""
+"""Constants for the Rotarex DIMES SRG Bluetooth integration."""
 
 from rotarex_dimes_ble import Region, TankType
 

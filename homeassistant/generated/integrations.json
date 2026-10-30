@@ -9730,7 +9730,7 @@
       "iot_class": "local_push"
     },
     "rotarex_ble": {
-      "name": "Rotarex DIMES Bluetooth",
+      "name": "Rotarex DIMES SRG Bluetooth",
       "integration_type": "device",
       "categories": [
         "energy"
