@@ -2,12 +2,12 @@
 
 from unittest.mock import AsyncMock, patch
 
-from home_assistant_bluetooth import BluetoothServiceInfoBleak
 import pytest
 from pytest_homeassistant.common import MockConfigEntry
 
+from homeassistant.components.bluetooth import BluetoothServiceInfoBleak
 from homeassistant.components.rotarex_ble.const import CONF_TANK_TYPE, DOMAIN
-from homeassistant.config_entries import SOURCE_BLUETOOTH, SOURCE_USER
+from homeassistant.config_entries import SOURCE_BLUETOOTH, SOURCE_IGNORE, SOURCE_USER
 from homeassistant.const import CONF_ADDRESS, CONF_REGION
 from homeassistant.core import HomeAssistant
 from homeassistant.data_entry_flow import FlowResultType
@@ -15,6 +15,7 @@ from homeassistant.data_entry_flow import FlowResultType
 from . import (
     DIMES_ADDRESS,
     DIMES_PASSIVE_SERVICE_INFO,
+    DIMES_RESET_SERVICE_INFO,
     DIMES_SERVICE_INFO,
     DIMES_TITLE,
     NOT_DIMES_SERVICE_INFO,
@@ -32,6 +33,7 @@ SETTINGS = {CONF_REGION: "other", CONF_TANK_TYPE: "camping_tank"}
     [
         pytest.param(DIMES_SERVICE_INFO, id="active_scan"),
         pytest.param(DIMES_PASSIVE_SERVICE_INFO, id="passive_scan"),
+        pytest.param(DIMES_RESET_SERVICE_INFO, id="after_battery_change"),
     ],
 )
 async def test_bluetooth_discovery(
@@ -162,3 +164,61 @@ async def test_options_flow(
     assert result["type"] is FlowResultType.CREATE_ENTRY
     assert mock_config_entry.options == SETTINGS
     assert len(mock_setup_entry.mock_calls) == 2
+
+
+async def test_bluetooth_discovery_already_in_progress(hass: HomeAssistant) -> None:
+    """Test the same sensor can't be discovered twice at the same time."""
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": SOURCE_BLUETOOTH}, data=DIMES_SERVICE_INFO
+    )
+    assert result["type"] is FlowResultType.FORM
+
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": SOURCE_BLUETOOTH}, data=DIMES_SERVICE_INFO
+    )
+
+    assert result["type"] is FlowResultType.ABORT
+    assert result["reason"] == "already_in_progress"
+
+
+@pytest.mark.usefixtures("mock_setup_entry")
+async def test_user_flow_takes_precedence_over_discovery(hass: HomeAssistant) -> None:
+    """Test setting up a sensor manually aborts its discovery flow."""
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN, context={"source": SOURCE_BLUETOOTH}, data=DIMES_SERVICE_INFO
+    )
+    assert result["type"] is FlowResultType.FORM
+
+    with patch(DISCOVERY, return_value=[DIMES_SERVICE_INFO]):
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN, context={"source": SOURCE_USER}
+        )
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"], {CONF_ADDRESS: DIMES_ADDRESS, **SETTINGS}
+    )
+
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert result["result"].unique_id == DIMES_ADDRESS
+    assert not hass.config_entries.flow.async_progress(DOMAIN)
+
+
+@pytest.mark.usefixtures("mock_setup_entry")
+async def test_user_flow_replaces_ignored_sensor(hass: HomeAssistant) -> None:
+    """Test a sensor the user ignored can still be set up manually."""
+    MockConfigEntry(
+        domain=DOMAIN, unique_id=DIMES_ADDRESS, source=SOURCE_IGNORE
+    ).add_to_hass(hass)
+
+    with patch(DISCOVERY, return_value=[DIMES_SERVICE_INFO]):
+        result = await hass.config_entries.flow.async_init(
+            DOMAIN, context={"source": SOURCE_USER}
+        )
+    assert result["type"] is FlowResultType.FORM
+
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"], {CONF_ADDRESS: DIMES_ADDRESS, **SETTINGS}
+    )
+
+    assert result["type"] is FlowResultType.CREATE_ENTRY
+    assert result["title"] == DIMES_TITLE
+    assert result["result"].unique_id == DIMES_ADDRESS

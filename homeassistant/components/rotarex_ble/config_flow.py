@@ -1,6 +1,6 @@
 """Config flow for the Rotarex DIMES SRG Bluetooth integration."""
 
-from typing import Any, override
+from typing import TYPE_CHECKING, Any, override
 
 import probatio
 from rotarex_dimes_ble import Region, RotarexDimesBluetoothDeviceData as DeviceData
@@ -10,7 +10,6 @@ from homeassistant.components.bluetooth import (
     async_discovered_service_info,
 )
 from homeassistant.config_entries import (
-    ConfigEntry,
     ConfigFlow,
     ConfigFlowResult,
     OptionsFlowWithReload,
@@ -23,6 +22,7 @@ from homeassistant.helpers.selector import (
     SelectSelectorMode,
 )
 
+from . import RotarexBleConfigEntry
 from .const import CONF_TANK_TYPE, DEFAULT_REGION, DEFAULT_TANK_TYPE, DOMAIN, TANK_TYPES
 
 SETTINGS_SCHEMA = probatio.Schema(
@@ -52,14 +52,15 @@ class RotarexBleConfigFlow(ConfigFlow, domain=DOMAIN):
 
     def __init__(self) -> None:
         """Initialize the config flow."""
-        self._discovery_info: BluetoothServiceInfoBleak | None = None
-        self._discovered_device: DeviceData | None = None
+        self._discovered_title: str | None = None
         self._discovered_devices: dict[str, str] = {}
 
     @staticmethod
     @callback
     @override
-    def async_get_options_flow(config_entry: ConfigEntry) -> RotarexBleOptionsFlow:
+    def async_get_options_flow(
+        config_entry: RotarexBleConfigEntry,
+    ) -> RotarexBleOptionsFlow:
         """Return the options flow."""
         return RotarexBleOptionsFlow()
 
@@ -73,21 +74,16 @@ class RotarexBleConfigFlow(ConfigFlow, domain=DOMAIN):
         device = DeviceData()
         if not device.supported(discovery_info):
             return self.async_abort(reason="not_supported")
-        self._discovery_info = discovery_info
-        self._discovered_device = device
+        self._discovered_title = device.title
         return await self.async_step_bluetooth_confirm()
 
     async def async_step_bluetooth_confirm(
         self, user_input: dict[str, Any] | None = None
     ) -> ConfigFlowResult:
         """Confirm discovery and select the tank settings."""
-        assert self._discovered_device is not None
-        assert self._discovery_info is not None
-        title = (
-            self._discovered_device.title
-            or self._discovered_device.get_device_name()
-            or self._discovery_info.name
-        )
+        title = self._discovered_title
+        if TYPE_CHECKING:
+            assert title is not None
         if user_input is not None:
             return self.async_create_entry(title=title, data={}, options=user_input)
 
@@ -105,11 +101,14 @@ class RotarexBleConfigFlow(ConfigFlow, domain=DOMAIN):
     ) -> ConfigFlowResult:
         """Handle the user step to pick a discovered sensor."""
         if user_input is not None:
-            address = user_input.pop(CONF_ADDRESS)
+            address = user_input[CONF_ADDRESS]
             await self.async_set_unique_id(address, raise_on_progress=False)
             self._abort_if_unique_id_configured()
+            settings = {
+                key: value for key, value in user_input.items() if key != CONF_ADDRESS
+            }
             return self.async_create_entry(
-                title=self._discovered_devices[address], data={}, options=user_input
+                title=self._discovered_devices[address], data={}, options=settings
             )
 
         current_addresses = self._async_current_ids(include_ignore=False)
@@ -118,10 +117,8 @@ class RotarexBleConfigFlow(ConfigFlow, domain=DOMAIN):
             if address in current_addresses or address in self._discovered_devices:
                 continue
             device = DeviceData()
-            if device.supported(discovery_info):
-                self._discovered_devices[address] = (
-                    device.title or device.get_device_name() or discovery_info.name
-                )
+            if device.supported(discovery_info) and device.title:
+                self._discovered_devices[address] = device.title
 
         if not self._discovered_devices:
             return self.async_abort(reason="no_devices_found")

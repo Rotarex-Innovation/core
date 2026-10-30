@@ -1,6 +1,7 @@
 """The Rotarex DIMES SRG Bluetooth integration."""
 
 import logging
+from typing import TYPE_CHECKING
 
 from rotarex_dimes_ble import Region, RotarexDimesBluetoothDeviceData, TankType
 
@@ -24,7 +25,8 @@ type RotarexBleConfigEntry = ConfigEntry[PassiveBluetoothProcessorCoordinator]
 async def async_setup_entry(hass: HomeAssistant, entry: RotarexBleConfigEntry) -> None:
     """Set up a Rotarex Dimes Wave sensor from a config entry."""
     address = entry.unique_id
-    assert address is not None
+    if TYPE_CHECKING:
+        assert address is not None
 
     data = RotarexDimesBluetoothDeviceData(
         Region(entry.options[CONF_REGION]), TankType(entry.options[CONF_TANK_TYPE])
